@@ -1,58 +1,40 @@
-"use client";
+
 import { Button } from "@/components/ui/button";
 import { FormItem } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
-import { SyntheticEvent, useState } from "react";
+import { FormEvent, SyntheticEvent, useState } from "react";
 import SidePanel from "./SidePanel";
+import prisma from "@/lib/client";
+import { QuestionForm } from "./form";
+import { Question } from "@prisma/client";
 
-export default function Home() {
-  const [data, setData] = useState(String);
+export default async function Home({ question }: { question: Question }) {
 
-  const onSubmitText = async (e: SyntheticEvent) => {
-    e.preventDefault();
-
-    const response = await fetch("api/openai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data,
-      }),
-    });
-    const result = await response.json();
-    console.log(result);
-  };
+  const questions = await prisma.question.findMany({
+    orderBy:{
+      
+    }
+  });
+  // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
 
   return (
     <div>
-      <SidePanel />
-      <div className="flex flex-col mx-auto items-center justify-center max-w-4xl space-y-10 m-10 px-10  md:ml-[32rem] ">
+      <SidePanel questions={questions} />
+      <div className="flex flex-col mx-auto items-center justify-center max-w-6xl mt-10 space-y-6 px-10  md:ml-[24rem] ">
         <div>
           <h1 className="text-2xl font-semibold tracking-tighter">
-            Fashionista AI
+            FashioNista AI
           </h1>
           <p className="text-base">Ask questions about fashion.</p>
         </div>
-        <div>
-          <form className="space-y-6 w-full" onSubmit={onSubmitText}>
-            <FormItem>
-              <Textarea
-                cols={200}
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-              ></Textarea>
-            </FormItem>
-            <FormItem>
-              <Button>Submit</Button>
-            </FormItem>
-          </form>
-        </div>
+
+        <QuestionForm question={question} />
+
         {/* View Field */}
-        <div className="bg-gray-100 rounded h-72 w-full border"></div>
+        <div className="bg-gray-100 rounded h-[22rem] w-full border"></div>
         <div>
           <p className="text-muted-foreground font-thin tracking-tight">
             Powered By Open AI
@@ -69,6 +51,6 @@ export default function Home() {
         </div>
       </div>
     </div>
-
   );
 }
+
