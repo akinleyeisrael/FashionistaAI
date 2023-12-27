@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { FormItem } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,12 +10,11 @@ import prisma from "@/lib/client";
 import { QuestionForm } from "./form";
 import { Question } from "@prisma/client";
 
-export default async function Home({ question }: { question: Question }) {
-
+export async function Home() {
   const questions = await prisma.question.findMany({
     orderBy: {
-      createAt: "desc"
-    }
+      createAt: "desc",
+    },
   });
   // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
 
@@ -30,7 +28,7 @@ export default async function Home({ question }: { question: Question }) {
           </h1>
           <p className="text-base">Ask questions about fashion.</p>
         </div>
-        <QuestionForm question={question} />
+        {/* <QuestionForm question={question} /> */}
         {/* View Field */}
         <div className="bg-gray-100 rounded h-[22rem] w-full border"></div>
         <div>
@@ -40,7 +38,10 @@ export default async function Home({ question }: { question: Question }) {
           <p className="text-muted-foreground inline-flex">
             Made With{" "}
             <span>
-              <Link className="inline-flex text-primary" href={"https://github.com/akinleyeisrael/openai"}>
+              <Link
+                className="inline-flex text-primary"
+                href={"https://github.com/akinleyeisrael/openai"}
+              >
                 <GitHubLogoIcon className="m-1" />
                 Fashionista_Ai
               </Link>
@@ -51,4 +52,4 @@ export default async function Home({ question }: { question: Question }) {
     </div>
   );
 }
-
+export default Home;
