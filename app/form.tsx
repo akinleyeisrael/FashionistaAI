@@ -79,7 +79,6 @@ export const QuestionForm = ({ question }: { question: Question }) => {
                 <Textarea
                     ref={textareaRef}
                     cols={200}
-                    rows={4}
                     onChange={(e) => setData(e.target.value)}
                     defaultValue={data}
                 ></Textarea>

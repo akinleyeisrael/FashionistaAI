@@ -32,7 +32,7 @@ export default async function Home({ question }: { question: Question }) {
         </div>
         <QuestionForm question={question} />
         {/* View Field */}
-        <div className="bg-gray-100 rounded h-[20rem] w-full border"></div>
+        <div className="bg-gray-100 rounded h-[22rem] w-full border"></div>
         <div>
           <p className="text-muted-foreground font-thin tracking-tight">
             Powered By Open AI
