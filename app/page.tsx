@@ -35,7 +35,7 @@ export default async function Home({ question }: { question: Question }) {
         <div className="bg-gray-100 rounded h-[22rem] w-full border"></div>
         <div>
           <p className="text-muted-foreground font-thin tracking-tight">
-            Powered By Open AI
+            Powered By ChatGBT
           </p>
           <p className="text-muted-foreground inline-flex">
             Made With{" "}
