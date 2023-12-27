@@ -40,7 +40,7 @@ export default async function Home({ question }: { question: Question }) {
           <p className="text-muted-foreground inline-flex">
             Made With{" "}
             <span>
-              <Link className="inline-flex text-primary" href={"/"}>
+              <Link className="inline-flex text-primary" href={"https://github.com/akinleyeisrael/openai"}>
                 <GitHubLogoIcon className="m-1" />
                 Fashionista_Ai
               </Link>
