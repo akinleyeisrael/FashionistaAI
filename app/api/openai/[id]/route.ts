@@ -18,3 +18,19 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
     return NextResponse.json(question, { status: 200 })
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+    if (params.id) {
+        const question = await prisma.question.delete({
+            where: {
+                id: params.id
+            }
+        })
+        return NextResponse.json(question, { status: 200 })
+    }
+    else {
+        const question = await prisma.question.deleteMany()
+        return NextResponse.json(question, { status: 200 })
+    }
+}
+

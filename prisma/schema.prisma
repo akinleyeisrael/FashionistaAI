@@ -12,7 +12,7 @@ datasource db {
 
 model Question {
   id        String   @id @default(cuid())
-  question  String
+  question  String   @db.LongText
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

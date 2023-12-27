@@ -1,17 +1,34 @@
 "use client";
-import React, { useRef } from "react";
-import { FormEvent, SyntheticEvent, useState } from "react";
-import { FormItem } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 import { Question } from "@prisma/client";
+import {
+    CopyIcon,
+    Cross1Icon,
+    CrossCircledIcon,
+    Crosshair1Icon,
+} from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
+import { SyntheticEvent, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export const QuestionForm = ({ question }: { question: Question }) => {
     // const [data, setData] = useState(String);
-    const [data, setData] = useState(String);
+    const [data, setData] = useState(question ? question.question : "");
     const router = useRouter();
-    const formRef = useRef<HTMLFormElement>(null)
+    const formRef = useRef<HTMLFormElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const clearSubmitForm = () => {
+        if (textareaRef.current) {
+            textareaRef.current.value = "";
+        }
+    };
+
+    const copyTextAreaValue = async () => {
+        await navigator.clipboard.writeText(data);
+        toast.info("Copied to clipboard!");
+    };
 
     const onSubmitText = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -26,8 +43,7 @@ export const QuestionForm = ({ question }: { question: Question }) => {
                     question: data,
                 }),
             });
-        }
-        else {
+        } else {
             await fetch("/api/openai/", {
                 method: "POST",
                 headers: {
@@ -39,22 +55,36 @@ export const QuestionForm = ({ question }: { question: Question }) => {
             });
         }
         if (formRef.current) {
-            formRef.current?.reset()
+            formRef.current?.reset();
         }
-        router.refresh()
+        router.refresh();
     };
     return (
         <div>
-            <form ref={formRef} className="space-y-6 w-full" onSubmit={onSubmitText}>
+            <form ref={formRef} className="space-y-2 w-full" onSubmit={onSubmitText}>
+                {question && (
+                    <p>
+                        <CopyIcon
+                            className="hover:cursor-pointer"
+                            onClick={copyTextAreaValue}
+                        />
+                    </p>
+                )}
+                {!question && (
+                    <CrossCircledIcon
+                        onClick={clearSubmitForm}
+                        className=" hover:cursor-pointer absolute m-1 end-10 sm:end-[168px] "
+                    />
+                )}
                 <Textarea
+                    ref={textareaRef}
                     cols={200}
+                    rows={4}
                     onChange={(e) => setData(e.target.value)}
-                    defaultValue={question ? question.question : ""}
+                    defaultValue={data}
                 ></Textarea>
-                {question ? "" : <Button>{"Add"}</Button>}
-
+                {!question && <Button>{"Submit"}</Button>}
             </form>
         </div>
     );
 };
-

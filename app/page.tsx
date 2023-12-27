@@ -15,7 +15,7 @@ export default async function Home({ question }: { question: Question }) {
 
   const questions = await prisma.question.findMany({
     orderBy:{
-      
+      createAt: "desc"
     }
   });
   // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
@@ -23,18 +23,16 @@ export default async function Home({ question }: { question: Question }) {
   return (
     <div>
       <SidePanel questions={questions} />
-      <div className="flex flex-col mx-auto items-center justify-center max-w-6xl mt-10 space-y-6 px-10  md:ml-[24rem] ">
+      <div className="flex flex-col mx-auto items-center justify-center max-w-4xl mt-10 space-y-6 px-10 md:ml-[32rem] ">
         <div>
           <h1 className="text-2xl font-semibold tracking-tighter">
             FashioNista AI
           </h1>
           <p className="text-base">Ask questions about fashion.</p>
         </div>
-
         <QuestionForm question={question} />
-
         {/* View Field */}
-        <div className="bg-gray-100 rounded h-[22rem] w-full border"></div>
+        <div className="bg-gray-100 rounded h-[20rem] w-full border"></div>
         <div>
           <p className="text-muted-foreground font-thin tracking-tight">
             Powered By Open AI
