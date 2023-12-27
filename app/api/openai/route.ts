@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
 
     const { question } = await request.json()
- 
+
     const data = await prisma.question.create({
         data: {
             question
@@ -15,3 +15,10 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(question, { status: 200 })
 }
+
+//DELETE ALL
+export async function DELETE(req: NextRequest) {
+    const question = await prisma.question.deleteMany()
+    return NextResponse.json(question, { status: 200 })
+}
+

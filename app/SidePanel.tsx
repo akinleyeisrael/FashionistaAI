@@ -1,18 +1,37 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Question } from "@prisma/client";
-import { ExitIcon, GearIcon, IconJarLogoIcon, Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
+import {
+    ExitIcon,
+    GearIcon,
+    IconJarLogoIcon,
+    Pencil2Icon,
+    TrashIcon,
+} from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { QuestionForm } from "./form";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 
 export const SidePanel = ({ questions }: { questions: Question[] }) => {
-    const [dialogOpen, setDialogOpen] = useState(false)
+    const [dialogOpen, setDialogOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter()
-    const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
+    const router = useRouter();
+    // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
+    //     null
+    // );
 
     const triggerOpen = () => {
         setIsOpen(!isOpen);
@@ -22,20 +41,18 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
     //     setSelectedQuestion(question);
     // };
 
-    const handleDeleteClick = async (question: Question) => {
+    const handleDeleteClick = async (question?: Question) => {
         if (question) {
             await fetch(`/api/openai/${question.id}`, {
-                method: "DELETE"
-            })
-        }
-        else {
+                method: "DELETE",
+            });
+        } else {
             await fetch(`/api/openai/`, {
-                method: "DELETE"
-            })
+                method: "DELETE",
+            });
         }
-        return question
-        router.refresh()
-    }
+        router.refresh();
+    };
     return (
         <div className="">
             <div className="flex justify-end p-3 md:hidden">
@@ -48,16 +65,28 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
                 <div className="text-primary-foreground flex flex-col pt-4 px-2">
                     <div className="mb-2">
                         <h1 className="text-center items-center font-semibold text-lg mb-4 leading-tight tracking-wider">
-                            <p className="inline-flex"> History
+                            <p className="inline-flex">
+                                {" "}
+                                History
                                 <Popover>
-                                    <PopoverTrigger><GearIcon className=" m-[0.3rem] hover:text-purple-500" /></PopoverTrigger>
-                                    <PopoverContent className="bg-primary w-60">
-                                        <p className="text-primary-foreground text-xs">Clear all chats  <Button onClick={(question: Question) => handleDeleteClick(question)} className="ml-10 text-xs" variant={"destructive"}>Delete all</Button></p>
+                                    <PopoverTrigger>
+                                        <GearIcon className=" m-[0.3rem] hover:text-purple-500" />
+                                    </PopoverTrigger>
+                                    <PopoverContent className="bg-primary w-full">
+                                        <p className="text-primary-foreground text-xs">
+                                            Clear all chats{" "}
+                                            <Button
+                                                onClick={() => handleDeleteClick()}
+                                                className="ml-11  text-xs"
+                                                variant={"destructive"}
+                                            >
+                                                Delete all
+                                            </Button>
+                                        </p>
                                     </PopoverContent>
                                 </Popover>
                             </p>
                         </h1>
-
                     </div>
 
                     <div className="max-h-[calc(100vh-4rem)] overflow-auto scroll px-2">
@@ -80,10 +109,15 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
                                                     Make changes to your questions here. Copy and submit.
                                                 </DialogDescription>
                                             </DialogHeader>
-                                            {question && <QuestionForm key={question.id} question={question} />}
+                                            {question && (
+                                                <QuestionForm key={question.id} question={question} />
+                                            )}
                                         </DialogContent>
                                     </Dialog>
-                                    <p className="hover:cursor-pointer hover:text-red-500" onClick={() => handleDeleteClick(question)}>
+                                    <p
+                                        className="hover:cursor-pointer hover:text-red-500"
+                                        onClick={() => handleDeleteClick(question)}
+                                    >
                                         <TrashIcon />
                                     </p>
                                 </div>

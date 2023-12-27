@@ -14,7 +14,7 @@ import { Question } from "@prisma/client";
 export default async function Home({ question }: { question: Question }) {
 
   const questions = await prisma.question.findMany({
-    orderBy:{
+    orderBy: {
       createAt: "desc"
     }
   });
