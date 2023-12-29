@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Question {
   id        String   @id @default(cuid())
-  question  String   @db.LongText
+  messages  String   @db.Text
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

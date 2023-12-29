@@ -10,7 +10,7 @@ import prisma from "@/lib/client";
 import { QuestionForm } from "./form";
 import { Question } from "@prisma/client";
 
-export async function Home() {
+export async function Home({ question }: { question: Question }) {
   const questions = await prisma.question.findMany({
     orderBy: {
       createAt: "desc",
@@ -28,26 +28,22 @@ export async function Home() {
           </h1>
           <p className="text-base">Ask questions about fashion.</p>
         </div>
-        {/* <QuestionForm question={question} /> */}
-        {/* View Field */}
-        <div className="bg-gray-100 rounded h-[22rem] w-full border"></div>
-        <div>
-          <p className="text-muted-foreground font-thin tracking-tight">
-            Powered By ChatGBT
-          </p>
-          <p className="text-muted-foreground inline-flex">
-            Made With{" "}
-            <span>
-              <Link
-                className="inline-flex text-primary"
-                href={"https://github.com/akinleyeisrael/openai"}
-              >
-                <GitHubLogoIcon className="m-1" />
-                Fashionista_Ai
-              </Link>
-            </span>
-          </p>
-        </div>
+        <QuestionForm question={question} />
+        <p className="text-muted-foreground font-thin tracking-tight">
+          Powered By ChatGBT
+        </p>
+        <p className="text-muted-foreground inline-flex">
+          Made With{" "}
+          <span>
+            <Link
+              className="inline-flex text-primary"
+              href={"https://github.com/akinleyeisrael/openai"}
+            >
+              <GitHubLogoIcon className="m-1" />
+              Fashionista_Ai
+            </Link>
+          </span>
+        </p>
       </div>
     </div>
   );

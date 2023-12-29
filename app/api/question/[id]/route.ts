@@ -3,20 +3,20 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
 
-    const { question } = await request.json()
+    const { messages } = await request.json()
 
-    const data = await prisma.question.update({
+    const question = await prisma.question.update({
         where: {
             id: (params.id)
         },
         data: {
-            question
+            messages
         }
     })
-    if (!data) {
-        return NextResponse.json("question", { status: 400 })
+    if (!question) {
+        return NextResponse.json(messages, { status: 400 })
     }
-    return NextResponse.json(question, { status: 200 })
+    return NextResponse.json(messages, { status: 200 })
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {

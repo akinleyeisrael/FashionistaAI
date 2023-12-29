@@ -8,16 +8,20 @@ import {
     CrossCircledIcon,
     Crosshair1Icon,
 } from "@radix-ui/react-icons";
+import { Message, useChat } from "ai/react";
 import { useRouter } from "next/navigation";
-import { SyntheticEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, SyntheticEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export const QuestionForm = ({ question }: { question: Question }) => {
-    // const [data, setData] = useState(String);
-    const [data, setData] = useState(question ? question.question : "");
+    const [data, setData] = useState(question ? question.messages : "");
     const router = useRouter();
     const formRef = useRef<HTMLFormElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+    console.log(input);
+    console.log(messages);
 
     const clearSubmitForm = () => {
         if (textareaRef.current) {
@@ -30,27 +34,35 @@ export const QuestionForm = ({ question }: { question: Question }) => {
         toast.info("Copied to clipboard!");
     };
 
-    const onSubmitText = async (e: SyntheticEvent) => {
+    const handleOnchange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setData(e.target.value);
+        handleInputChange(e)
+    };
+
+
+    const onSubmitQuestion = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        handleSubmit(e)
+
         if (question) {
-            await fetch("/api/openai/" + question.id, {
+            await fetch("/api/question/" + question.id, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    question: data,
+                    messages: data,
                 }),
             });
         } else {
-            await fetch("/api/openai/", {
+            await fetch("/api/question/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    question: data,
+                    messages: data,
                 }),
             });
         }
@@ -59,9 +71,10 @@ export const QuestionForm = ({ question }: { question: Question }) => {
         }
         router.refresh();
     };
+
     return (
         <div>
-            <form ref={formRef} className="space-y-2 w-full" onSubmit={onSubmitText}>
+            <form ref={formRef} className="space-y-2 w-full" onSubmit={onSubmitQuestion}>
                 {question && (
                     <p>
                         <CopyIcon
@@ -77,13 +90,25 @@ export const QuestionForm = ({ question }: { question: Question }) => {
                     />
                 )}
                 <Textarea
+                    // value={input}
                     ref={textareaRef}
                     cols={200}
-                    onChange={(e) => setData(e.target.value)}
+                    onChange={handleOnchange}
                     defaultValue={data}
                 ></Textarea>
                 {!question && <Button>{"Submit"}</Button>}
             </form>
+
+            <div className="flex flex-col w-full py-24 mx-auto h-[20rem]  bg-secondary mt-6">
+                {messages.length > 0
+                    ? messages.map(m => (
+                        <div key={m.id} className="whitespace-pre-wrap">
+                            {m.role === 'user' ? 'User: ' : 'AI: '}
+                            {m.content}
+                        </div>
+                    ))
+                    : null}
+            </div>
         </div>
     );
 };

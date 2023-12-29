@@ -43,11 +43,11 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
 
     const handleDeleteClick = async (question?: Question) => {
         if (question) {
-            await fetch(`/api/openai/${question.id}`, {
+            await fetch(`/api/question/${question.id}`, {
                 method: "DELETE",
             });
         } else {
-            await fetch(`/api/openai/`, {
+            await fetch(`/api/question/`, {
                 method: "DELETE",
             });
         }
@@ -74,7 +74,7 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
                                     </PopoverTrigger>
                                     <PopoverContent className="bg-primary w-full">
                                         <p className="text-primary-foreground text-xs">
-                                            Clear all chats{" "}
+                                            Clear History{" "}
                                             <Button
                                                 onClick={() => handleDeleteClick()}
                                                 className="ml-11  text-xs"
@@ -122,9 +122,9 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
                                     </p>
                                 </div>
                                 <p className="text-xs ml-6 break-before-all break-words max-w-[13rem] sm:max-w-[16rem]">
-                                    {question.question.length > 100
-                                        ? `${question.question.substring(0, 100)}...`
-                                        : question.question}
+                                    {question.messages.length > 100
+                                        ? `${question.messages.substring(0, 100)}...`
+                                        : question.messages}
                                 </p>
                             </li>
                         ))}
