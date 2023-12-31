@@ -13,7 +13,7 @@ import { Question } from "@prisma/client";
 export interface HomeProps {
   question: Question
 }
-const page = async ({ question }: HomeProps) => {
+const page = async () => {
   const questions = await prisma.question.findMany({
     orderBy: {
       createAt: "desc",
