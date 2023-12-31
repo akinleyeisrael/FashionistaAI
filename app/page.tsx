@@ -10,18 +10,16 @@ import prisma from "@/lib/client";
 import { QuestionForm } from "./form";
 import { Question } from "@prisma/client";
 
+import React from 'react'
+
+
 
 const Home = async () => {
-  const questions = await prisma.question.findMany({
-    orderBy: {
-      createAt: "desc",
-    },
-  });
-  // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
+
 
   return (
     <div>
-     
+      
     </div>
   );
 };
