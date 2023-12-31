@@ -13,7 +13,7 @@ import { Question } from "@prisma/client";
 export interface HomeProps {
   question: Question
 }
-const page = async ({ question }: HomeProps) => {
+const page = async () => {
   const questions = await prisma.question.findMany({
     orderBy: {
       createAt: "desc",
@@ -31,7 +31,7 @@ const page = async ({ question }: HomeProps) => {
           </h1>
           <p className="text-base">Ask questions about fashion.</p>
         </div>
-        <QuestionForm question={question} />
+        <QuestionForm question={undefined} />
         <p className="text-muted-foreground font-thin tracking-tight ">
           Powered By ChatGBT
         </p>
