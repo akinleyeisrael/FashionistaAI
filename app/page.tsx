@@ -30,7 +30,7 @@ const Home = async () => {
           <p className="text-base">Ask questions about fashion.</p>
         </div>
         {/* how do i get this to work? to create a form while this form is also used for edit */}
-        <QuestionForm question={undefined} />
+        {/* <QuestionForm question={undefined} /> */}
         <p className="text-muted-foreground font-thin tracking-tight ">
           Powered By ChatGBT
         </p>
