@@ -24,17 +24,18 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { Sling as Hamburger } from 'hamburger-react'
 
 export const SidePanel = ({ questions }: { questions: Question[] }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setOpen] = useState(false);
     const router = useRouter();
     // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
     //     null
     // );
 
     const triggerOpen = () => {
-        setIsOpen(!isOpen);
+        setOpen(!isOpen);
     };
 
     // const handleEditClick = (question: Question) => {
@@ -55,8 +56,9 @@ export const SidePanel = ({ questions }: { questions: Question[] }) => {
     };
     return (
         <div className="">
-            <div className="flex justify-end p-3 md:hidden">
-                <Button onClick={triggerOpen}>xx</Button>
+            <div className="flex justify-end p-1 md:hidden">
+            <Hamburger toggled={isOpen} toggle={setOpen} />
+                {/* <Button onClick={triggerOpen}>xx</Button> */}
             </div>
             <div
                 className={`${isOpen ? "block" : "hidden"
