@@ -10,7 +10,10 @@ import prisma from "@/lib/client";
 import { QuestionForm } from "./form";
 import { Question } from "@prisma/client";
 
-export async function Home({ question }: { question: Question }) {
+interface HomeProps {
+  question: Question
+}
+export async function Home({ question }: HomeProps) {
   const questions = await prisma.question.findMany({
     orderBy: {
       createAt: "desc",
@@ -29,7 +32,7 @@ export async function Home({ question }: { question: Question }) {
           <p className="text-base">Ask questions about fashion.</p>
         </div>
         <QuestionForm question={question} />
-        <p className="text-muted-foreground font-thin tracking-tight">
+        <p className="text-muted-foreground font-thin tracking-tight ">
           Powered By ChatGBT
         </p>
         <p className="text-muted-foreground inline-flex">
