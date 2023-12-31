@@ -23,31 +23,7 @@ const page = async ({ question }: HomeProps) => {
 
   return (
     <div>
-      <SidePanel questions={questions} />
-      <div className="flex flex-col mx-auto items-center justify-center max-w-4xl mt-10 space-y-6 px-10 md:ml-[32rem] ">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tighter">
-            FashioNista AI
-          </h1>
-          <p className="text-base">Ask questions about fashion.</p>
-        </div>
-        <QuestionForm question={question} />
-        <p className="text-muted-foreground font-thin tracking-tight ">
-          Powered By ChatGBT
-        </p>
-        <p className="text-muted-foreground inline-flex">
-          Made With{" "}
-          <span>
-            <Link
-              className="inline-flex text-primary"
-              href={"https://github.com/akinleyeisrael/openai"}
-            >
-              <GitHubLogoIcon className="m-1" />
-              Fashionista_Ai
-            </Link>
-          </span>
-        </p>
-      </div>
+    
     </div>
   );
 }
