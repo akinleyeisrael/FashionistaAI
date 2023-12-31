@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, SyntheticEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export const QuestionForm = ({ question }: { question: Question }) => {
+export const QuestionForm = ({ question }: { question?: Question }) => {
     const [data, setData] = useState(question ? question.messages : "");
     const router = useRouter();
     const formRef = useRef<HTMLFormElement>(null);

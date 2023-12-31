@@ -10,10 +10,8 @@ import prisma from "@/lib/client";
 import { QuestionForm } from "./form";
 import { Question } from "@prisma/client";
 
-export interface HomeProps {
-  question: Question
-}
-const Home = async ({ question }: HomeProps) => {
+
+const Home = async () => {
   const questions = await prisma.question.findMany({
     orderBy: {
       createAt: "desc",
@@ -31,7 +29,8 @@ const Home = async ({ question }: HomeProps) => {
           </h1>
           <p className="text-base">Ask questions about fashion.</p>
         </div>
-        <QuestionForm question={question} />
+        {/* how do i get this to work? to create a form while this form is also used for edit */}
+        <QuestionForm question={undefined} />
         <p className="text-muted-foreground font-thin tracking-tight ">
           Powered By ChatGBT
         </p>
@@ -50,5 +49,5 @@ const Home = async ({ question }: HomeProps) => {
       </div>
     </div>
   );
-}
+};
 export default Home;
